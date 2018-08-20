@@ -1,10 +1,12 @@
 <?php
 
-class SendMail()
-{
+namespace SendEmail;
+
+
+class SendMail {
 
     private $accounts = [];
-    private $returning;
+    public $returning;
     private $environment = "development";
 
     function __construct(array $accounts, string $environment) {
@@ -41,12 +43,18 @@ class SendMail()
     
         $m->AddAddress($email);//email
     
-        $m->addAttachment($anexo);//anexo
+        if (is_array($anexo)) {
+            foreach ($anexo as $key => $a) {
+                $m->addAttachment($a);//anexo
+            }
+        } else {
+            $m->addAttachment($anexo);//anexo
+        }
 
 
         $m->Subject = utf8_decode($subject);
 
-        $m->Body = utf8_decode($msg);
+        $m->Body = utf8_decode($message);
     
         if (!$m->Send()) {
             #$err["error"] = $m->ErrorInfo;
@@ -59,8 +67,8 @@ class SendMail()
     /**
      * send email in development mode
      */
-    private function sendEmailTest(string $email, string $message, string $subject, string $anexo) {
-        $m = new PHPMailer\PHPMailer\PHPMailer();
+    private function sendEmailTest(string $email, string $message, string $subject, array $anexo) {
+        $m = new \PHPMailer\PHPMailer\PHPMailer();
 
         $m->Charset = 'UTF8-8';
         $m->SMTPSecure = 'plain';
@@ -77,20 +85,24 @@ class SendMail()
 
     
         $m->AddAddress($email);//email
-    
-        $m->addAttachment($anexo);//anexo
+
+        if (is_array($anexo)) {
+            foreach ($anexo as $key => $a) {
+                $m->addAttachment($a);//anexo
+            }
+        } else {
+            $m->addAttachment($anexo);//anexo
+        }
 
 
         $m->Subject = utf8_decode($subject);
 
-        $m->Body = utf8_decode($msg);
+        $m->Body = utf8_decode($message);
     
         if (!$m->Send()) {
-            #$err["error"] = $m->ErrorInfo;
-            return false;
+            return array("error" => $m->ErrorInfo, "enviado" => false);
         } else {
-            #$err["error"] = false;
-            return true;
+            return array("error" => "", "enviado" => true);
         }
     }
     /**

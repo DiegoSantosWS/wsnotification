@@ -1,0 +1,12 @@
+{
+    "autoload": {
+        "files": [
+            "classes/ApiController.class.php",
+            "classes/Functions.class.php",
+            "classes/SendMail.class.php"
+        ]
+    },
+    "require": {
+        "phpmailer/phpmailer": "^6.0"
+    }
+}
