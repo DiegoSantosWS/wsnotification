@@ -9,7 +9,7 @@ class ApiController
 
     private $acao;
 
-    function __construct(string $acao, array $dados, string $ambiente = "developement") {
+    function __construct(string $acao, array $dados, array $ambiente) {
         
         $this->acao = $acao;
         

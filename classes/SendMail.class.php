@@ -8,10 +8,18 @@ class SendMail {
     private $accounts = [];
     public $returning;
     private $environment = "development";
+    private $host;
+    private $user;
+    private $pass;
+    private $port;
 
     function __construct(array $accounts, string $environment) {
         $this->accounts = $accounts;
-        $this->environment = $environment;
+        $this->environment = $environment["type"];
+        $this->host = $environment["host"];
+        $this->user = $environment["user"];
+        $this->pass = $environment["pass"];
+        $this->port = $environment["port"];
 
         return self::running();
     }
@@ -28,17 +36,17 @@ class SendMail {
         $m = new PHPMailer\PHPMailer\PHPMailer();
 
         $m->Charset = 'UTF8-8';
-        $m->SMTPSecure = 'plain';
+        $m->SMTPSecure = 'ssl';
         $m->IsSMTP();
-        $m->Host = "smtp.mailtrap.io";
-        $m->Port = 2525;
+        $m->Host = $this->host;//"smtp.gmail.com";
+        $m->Port = $this->port;
         $m->SMTPAuth = true;
-        $m->Username = "456487957d12be";
-        $m->Password = "519aadd5f9195d";
+        $m->Username = $this->user;//"tec.infor321@gmail.com";
+        $m->Password = $this->pass;//"diegodos";
         $m->IsHTML(true);
-        $m->setFrom("diego@wsitebrasil.com.br");
+        $m->setFrom($email);
         $m->FromName = "PC-LINUX";
-        $m->ConfirmReadingTo = "diego@wsitebrasil.com.br";
+        $m->ConfirmReadingTo = $this->user;//"tec.infor321@gmail.com";
 
     
         $m->AddAddress($email);//email
@@ -71,17 +79,17 @@ class SendMail {
         $m = new \PHPMailer\PHPMailer\PHPMailer();
 
         $m->Charset = 'UTF8-8';
-        $m->SMTPSecure = 'plain';
+        $m->SMTPSecure = 'ssl';
         $m->IsSMTP();
-        $m->Host = "smtp.mailtrap.io";
-        $m->Port = 2525;
+        $m->Host = $this->host;//"smtp.mailtrap.io";
+        $m->Port = $this->port;//2525;
         $m->SMTPAuth = true;
-        $m->Username = "456487957d12be";
-        $m->Password = "519aadd5f9195d";
+        $m->Username = $this->user;//"456487957d12be";
+        $m->Password = $this->pass;//"519aadd5f9195d";
         $m->IsHTML(true);
-        $m->setFrom("diego@wsitebrasil.com.br");
+        $m->setFrom($email);
         $m->FromName = "PC-LINUX";
-        $m->ConfirmReadingTo = "diego@wsitebrasil.com.br";
+        $m->ConfirmReadingTo = $this->user;//"diego@wsitebrasil.com.br";
 
     
         $m->AddAddress($email);//email
