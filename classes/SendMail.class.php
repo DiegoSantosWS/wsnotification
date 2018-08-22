@@ -13,7 +13,7 @@ class SendMail {
     private $pass;
     private $port;
 
-    function __construct(array $accounts, string $environment) {
+    function __construct(array $accounts, array $environment) {
         $this->accounts = $accounts;
         $this->environment = $environment["type"];
         $this->host = $environment["host"];
@@ -32,21 +32,21 @@ class SendMail {
     /**
      * send email in production mode
      */
-    private function sendEmail(string $email, string $message, string $subject, string $anexo) {
-        $m = new PHPMailer\PHPMailer\PHPMailer();
+    private function sendEmail($email, string $message, string $subject, array $anexo) {
+        $m = new \PHPMailer\PHPMailer\PHPMailer();
 
         $m->Charset = 'UTF8-8';
         $m->SMTPSecure = 'ssl';
         $m->IsSMTP();
-        $m->Host = $this->host;//"smtp.gmail.com";
+        $m->Host = $this->host;
         $m->Port = $this->port;
         $m->SMTPAuth = true;
-        $m->Username = $this->user;//"tec.infor321@gmail.com";
-        $m->Password = $this->pass;//"diegodos";
+        $m->Username = $this->user;
+        $m->Password = $this->pass;
         $m->IsHTML(true);
         $m->setFrom($email);
         $m->FromName = "PC-LINUX";
-        $m->ConfirmReadingTo = $this->user;//"tec.infor321@gmail.com";
+        $m->ConfirmReadingTo = $this->user;
 
     
         $m->AddAddress($email);//email
@@ -81,15 +81,15 @@ class SendMail {
         $m->Charset = 'UTF8-8';
         $m->SMTPSecure = 'ssl';
         $m->IsSMTP();
-        $m->Host = $this->host;//"smtp.mailtrap.io";
-        $m->Port = $this->port;//2525;
+        $m->Host = $this->host;
+        $m->Port = $this->port;
         $m->SMTPAuth = true;
-        $m->Username = $this->user;//"456487957d12be";
-        $m->Password = $this->pass;//"519aadd5f9195d";
+        $m->Username = $this->user;
+        $m->Password = $this->pass;
         $m->IsHTML(true);
         $m->setFrom($email);
         $m->FromName = "PC-LINUX";
-        $m->ConfirmReadingTo = $this->user;//"diego@wsitebrasil.com.br";
+        $m->ConfirmReadingTo = $this->user;
 
     
         $m->AddAddress($email);//email
@@ -129,6 +129,6 @@ class SendMail {
             }
         }
 
-        return $this->returning;
+        return $this->returning . $env;
     }
 }
